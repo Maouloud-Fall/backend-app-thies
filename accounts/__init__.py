@@ -1,0 +1,2 @@
+def permissions():
+    return None
