@@ -10,26 +10,23 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
 
+    # Accounts (non-API)
+    path('accounts/', include('accounts.urls')),
+
+    # API Auth - Point unique pour toutes les authentifications
+    path('api/auth/', include([
+        path('register/', RegisterView.as_view(), name='register'),
+        path('', include('rest_framework.urls')),  # Login/logout DRF (sans namespace)
+    ])),
+
     # API Users
     path('api/users/', UserList.as_view(), name='user-list'),
     path('api/users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
 
-    # Authentification
-    path('api/auth/', include([
-        path('register/', RegisterView.as_view(), name='register'),
-        path('', include('rest_framework.urls')),  # Login/logout DRF
-    ])),
-
-    # API Jobs
-    path('api/jobs/', include('jobs.urls')),  # Intégration des URLs des jobs
-
-    #API applications
+    # Autres endpoints API
+    path('api/jobs/', include('jobs.urls')),
     path('api/applications/', include('applications.urls')),
-
-    #API ressources
     path('api/resources/', include('resources.urls')),
-
-    #API messages
     path('api/chat/', include('chat.urls')),
 
     # Documentation API
